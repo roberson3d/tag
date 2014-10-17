@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Teen : MonoBehaviour {
 	
-	[SerializeField] private Transform playerCam;
 	[SerializeField] private Transform playerCamCont;
 	
 	[SerializeField] private float MoveSpeed = 1f;
@@ -11,9 +10,11 @@ public class Teen : MonoBehaviour {
 	[SerializeField] private float LookYSpeed = 1f;
 	[SerializeField] private Vector2 LookYClamp = new Vector2(-30, 50);
 	
+	[SerializeField] private int PlayerIndex = 0;
+	
 	public Vector3 Forward { 
 		get {
-			return playerCam.forward;
+			return playerCamCont.forward;
 		}
 	}
 	
@@ -30,6 +31,8 @@ public class Teen : MonoBehaviour {
 			return _leftStick;
 		}
 	}
+	
+	
 
 	// Use this for initialization
 	void Start () {
@@ -46,8 +49,8 @@ public class Teen : MonoBehaviour {
 	}
 	
 	private void UpdateInput () {
-		_rightStick = new Vector2(Input.GetAxis("RightStickX1"), Mathf.Clamp(Input.GetAxis("RightStickY1"), -LookYClamp.y, -LookYClamp.x));
-		_leftStick = new Vector2(Input.GetAxis("LeftStickX1"), Input.GetAxis("LeftStickY1"));
+		_rightStick = new Vector2(Input.GetAxis("RightStickX"+PlayerIndex.ToString()), Mathf.Clamp(Input.GetAxis("RightStickY"+PlayerIndex.ToString()), -LookYClamp.y, -LookYClamp.x));
+		_leftStick = new Vector2(Input.GetAxis("LeftStickX"+PlayerIndex.ToString()), Input.GetAxis("LeftStickY"+PlayerIndex.ToString()));
 	}
 	
 	private void UpdatePlayerPos () {
@@ -56,6 +59,6 @@ public class Teen : MonoBehaviour {
 	
 	private void UpdatePlayerView () {
 		transform.Rotate(0, RightStick.x * LookXSpeed, 0);
-		playerCam.Rotate(RightStick.y * LookYSpeed, 0, 0);
+		playerCamCont.Rotate(RightStick.y * LookYSpeed, 0, 0);
 	}
 }
