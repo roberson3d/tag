@@ -3,14 +3,14 @@ using System.Collections;
 
 public class Teen : MonoBehaviour {
 	
+	[SerializeField] private int PlayerIndex = 0;
+	
 	[SerializeField] private Transform playerCamCont;
 	
 	[SerializeField] private float MoveSpeed = 1f;
 	[SerializeField] private float LookXSpeed = 1f;
 	[SerializeField] private float LookYSpeed = 1f;
 	[SerializeField] private Vector2 LookYClamp = new Vector2(-30, 50);
-	
-	[SerializeField] private int PlayerIndex = 0;
 	
 	public Vector3 Forward { 
 		get {
@@ -59,6 +59,8 @@ public class Teen : MonoBehaviour {
 	
 	private void UpdatePlayerView () {
 		transform.Rotate(0, RightStick.x * LookXSpeed, 0);
+		Vector3 euler = playerCamCont.rotation.eulerAngles;
+		if (euler.x > -LookYClamp.y || euler.x < -LookYClamp.x) 
 		playerCamCont.Rotate(RightStick.y * LookYSpeed, 0, 0);
 	}
 }
